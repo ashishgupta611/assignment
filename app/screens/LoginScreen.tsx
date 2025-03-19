@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Picker } from '@react-native-picker/picker';
 import { TextInput, Button, View, Text, Alert } from 'react-native';
@@ -10,7 +10,7 @@ import { login } from '../reducers/authSlice';
 import { setLanguage } from '../reducers/settingsSlice';
 import i18n from '../assets/i18n';
 
-import { REGEX, LOCALIZATION_LANGUAGES, COLORS } from '../constants';
+import { REGEX, LOCALIZATION_LANGUAGES, COLORS, STRINGS } from '../constants';
 
 const LoginScreen: React.FC = () => {
   const { t } = useTranslation();
@@ -19,17 +19,17 @@ const LoginScreen: React.FC = () => {
   const { language } = useSelector((state: RootState) => state.rootReducer.settings);
   const user = useSelector((state: RootState) => state.rootReducer.user);
 
-  const [email, setEmail] = useState<string>(user.email ?? '');
-  const [password, setPassword] = useState<string>(user.password ?? '');
-  const [isEmailValid, setIsEmailValid] = useState<boolean>(true);
+  const [email, setEmail] = useState<string>(user.email ?? STRINGS.EMPTY);
+  const [password, setPassword] = useState<string>(user.password ?? STRINGS.EMPTY);
 
   const validateEmail = (email: string) => REGEX.EMAIL.test(email);
+  const isEmailValid = useMemo(() => email === STRINGS.EMPTY ? true : validateEmail(email), [email]);
+
   const validatePassword = (password: string) => REGEX.PASSWORD.test(password);
-  const isFormValid = validateEmail(email) && validatePassword(password);
+  const isFormValid = useMemo(() => isEmailValid && validatePassword(password), [email, password]);
 
   const handleEmailTextChange = (email: string) => {
     setEmail(email);
-    setIsEmailValid(validateEmail(email));
   };
 
   const onLanguageChange = (lan: 'ar' | 'en') => {
@@ -38,8 +38,6 @@ const LoginScreen: React.FC = () => {
   };
 
   const handleLogin = () => {
-    setIsEmailValid(validateEmail(email));
-
     if (isFormValid) {
       dispatch(setCredentials({ email, password }));
       // TODO:: Setting 'User1' have no use here. 
@@ -74,9 +72,9 @@ const LoginScreen: React.FC = () => {
         {!isEmailValid && (
           <Text style={styles.errorText}>{t('enter_valid_email')}</Text>
         )}
-        <Text style={styles.textLabel}>{t('password')}</Text>
+        <Text style={[styles.textLabel, styles.passwordLabel]}>{t('password')}</Text>
         <TextInput
-          style={styles.input}
+          style={[styles.input, styles.passwordInput]}
           placeholder={t('enterPassword')}
           value={password}
           onChangeText={setPassword}

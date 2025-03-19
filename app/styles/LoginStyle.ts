@@ -39,18 +39,23 @@ export const styles = StyleSheet.create({
     marginBottom: 12,
     color: COLORS.PRIMARY
   },
+  passwordLabel:{
+    marginTop: 20,
+  },
+  passwordInput: {
+    marginBottom: 32,
+  },
   input: {
     fontSize:16,
     borderWidth: 1,
     borderColor: '#ccc',
     padding: 10,
-    marginBottom: 40,
     borderRadius: 5,
     backgroundColor: '#fff',
   },
   errorText: {
+    marginTop:8,
     fontSize:16,
     color: COLORS.ERROR,
-    marginBottom: 10,
   }
 });

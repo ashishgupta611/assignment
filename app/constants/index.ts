@@ -32,6 +32,10 @@ export const LOCALIZATION_LANGUAGES = {
   ar: 'arabic',
 } as const;
 
+export const STRINGS = {
+  EMPTY: '',
+} as const;
+
 // Colors
 export const COLORS = {
   PRIMARY: '#3498db',

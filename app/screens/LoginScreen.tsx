@@ -1,75 +1,73 @@
-// screens/Screen1.tsx
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
-import { TextInput, Button, View, StyleSheet, Alert } from 'react-native';
+import { TextInput, Button, View, Text, Alert } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import { styles } from '../styles/LoginStyle';
 import { setCredentials } from '../reducers/userSlice';
-//import { RootStackParamList } from '../navigation/NavigatorService';
+import { REGEX, NAVIGATION } from '../constants';
+
 
 const LoginScreen: React.FC = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
 
-  const validateEmail = (email: string) =>
-    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [isEmailValid, setIsEmailValid] = useState<boolean>(true);
 
-  const validatePassword = (password: string) =>
-    /^(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,15}$/.test(password);
+  const validateEmail = (email: string) => REGEX.EMAIL.test(email);
+  const validatePassword = (password: string) => REGEX.PASSWORD.test(password);
 
   const isFormValid = validateEmail(email) && validatePassword(password);
 
-  const handleSubmit = () => {
+  const handleEmailTextChange = (email: string) => {
+    setEmail(email);
+    setIsEmailValid(validateEmail(email));
+  };
+
+  const handleLogin = () => {
+    setIsEmailValid(validateEmail(email));
+
     if (isFormValid) {
+      Alert.alert(t('success'), t('login_success_message'));
       dispatch(setCredentials({ email, password }));
-      navigation.navigate("MovieList");
-    } else {
-      Alert.alert('Invalid Input', 'Please check your email and password.');
-    }
+      navigation.navigate(NAVIGATION.MovieList);
+    } 
   };
 
   return (
     <View style={styles.container}>
+      <Text>{t('email')}</Text>
       <TextInput
-        style={styles.input}
-        placeholder={t('email')}
+        style={[styles.input, !isEmailValid && { borderColor: 'red' }]} // Apply styles conditionally
+        placeholder={t('enterEmail')}
         value={email}
-        onChangeText={setEmail}
+        onChangeText={handleEmailTextChange}
         keyboardType="email-address"
         autoCapitalize="none"
       />
+      {!isEmailValid && (
+        <Text style={styles.errorText}>{t('enter_valid_email')}</Text>
+      )}
+
+      <Text>{t('password')}</Text>
       <TextInput
         style={styles.input}
-        placeholder={t('password')}
+        placeholder={t('enterPassword')}
         value={password}
         onChangeText={setPassword}
         secureTextEntry
       />
       <Button
         title={t('submit')}
-        onPress={handleSubmit}
+        onPress={handleLogin}
         disabled={!isFormValid}
       />
     </View>
   );
-};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    padding: 16,
-  },
-  input: {
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    marginBottom: 12,
-    paddingHorizontal: 8,
-  },
-});
+};
 
 export default LoginScreen;

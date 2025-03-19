@@ -1,13 +1,18 @@
-// screens/Screen2.tsx
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { View, Text, FlatList, Image, StyleSheet } from 'react-native';
+import { View, Text, FlatList, Image } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import { API_URLS } from '../constants';
+import { styles } from '../styles/MovieListStyle';
+import useAPI from '../hooks/useAPI';
 
 interface Movie {
   id: number;
   title: string;
   poster_path: string;
+}
+
+interface MoviesResponse {
+  results: Movie[];
 }
 
 const MovieListScreen: React.FC = () => {
@@ -46,31 +51,5 @@ const MovieListScreen: React.FC = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 16,
-  },
-  movieItem: {
-    flex: 1,
-    margin: 8,
-    alignItems: 'center',
-  },
-  poster: {
-    width: 150,
-    height: 200,
-    borderRadius: 8,
-  },
-  movieTitle: {
-    marginTop: 8,
-    textAlign: 'center',
-  },
-});
 
 export default MovieListScreen;

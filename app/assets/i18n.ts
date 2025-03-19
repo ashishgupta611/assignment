@@ -6,16 +6,28 @@ i18n.use(initReactI18next).init({
   resources: {
     en: {
       translation: {
-        email: 'Email',
-        password: 'Password',
+        login: 'Login',
+        email: 'Email:',
+        success: 'Success',
+        login_success_message:'Login successful!',
+        enter_valid_email: 'Please enter a valid email address.',
+        enterEmail: 'Enter your email',
+        password: 'Password:',
+        enterPassword:'Enter your password',
         submit: 'Submit',
         popularMovies: 'Popular Movies',
       },
     },
     ar: {
       translation: {
+        login: 'تسجيل الدخول',
         email: 'بريد إلكتروني',
+        success: 'Success',
+        login_success_message:'Login successful!',
+        enter_valid_email: 'Please enter a valid email address.',
+        enterEmail: 'Enter your email',
         password: 'كلمة المرور',
+        enterPassword:'Enter your password',
         submit: 'يُقدِّم',
         popularMovies: 'الأفلام الشعبية',
       },

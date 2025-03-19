@@ -1,4 +1,4 @@
-import './app/assets/i18n'; // Add this import at the top
+import './app/assets/i18n';
 import React from 'react';
 import NavigationService from './app/navigation/NavigatorService';
 

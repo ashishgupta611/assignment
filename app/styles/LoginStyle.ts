@@ -5,19 +5,51 @@ import { COLORS } from '../constants';
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
-    justifyContent: 'center',
     backgroundColor: COLORS.SCREEN_BACKGROUND,
   },
+  pickerContainer: {
+    flex: 0.2,
+    alignItems: 'flex-end',
+  },
+  picker: {
+    marginRight:20,
+    height: 60,
+    width:120,
+    backgroundColor: 'white',
+    marginTop: 60,
+  },
+  formHeaderText: {
+    marginLeft:20,
+    fontSize:26,
+    fontWeight: 'bold',
+    color: COLORS.PRIMARY
+  },
+  loginForm: {
+    flex: 0.4,
+    margin:20,
+    borderRadius: 12,
+    paddingLeft:20,
+    paddingRight:20,
+    justifyContent: 'center',
+    backgroundColor: '#fff',
+  },
+  textLabel:{
+    fontSize:16,
+    fontWeight: 'bold',
+    marginBottom: 12,
+    color: COLORS.PRIMARY
+  },
   input: {
+    fontSize:16,
     borderWidth: 1,
     borderColor: '#ccc',
     padding: 10,
-    marginBottom: 20,
+    marginBottom: 40,
     borderRadius: 5,
     backgroundColor: '#fff',
   },
   errorText: {
+    fontSize:16,
     color: COLORS.ERROR,
     marginBottom: 10,
   }

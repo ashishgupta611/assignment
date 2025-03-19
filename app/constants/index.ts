@@ -25,7 +25,11 @@ export const REGEX = {
 // Numbers
 export const NUMBERS = {
   COLUMNS: 2,
-  TIMEOUT: 5000, // 5 seconds
+} as const;
+
+export const LOCALIZATION_LANGUAGES = {
+  en: 'english',
+  ar: 'arabic',
 } as const;
 
 // Colors
@@ -33,5 +37,6 @@ export const COLORS = {
   PRIMARY: '#3498db',
   SECONDARY: '#2ecc71',
   ERROR: '#e74c3c',
+  BLACK: '#000000',
   SCREEN_BACKGROUND: '#f5f5f5'
 } as const;

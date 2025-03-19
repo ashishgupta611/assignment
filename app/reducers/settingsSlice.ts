@@ -1,22 +1,22 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface SettingsState {
-  theme: 'light' | 'dark';
+  language: 'en' | 'ar';
 }
 
 const initialState: SettingsState = {
-  theme: 'light',
+  language: 'en',
 };
 
 const settingsSlice = createSlice({
   name: 'settings',
   initialState,
   reducers: {
-    setTheme: (state, action: PayloadAction<'light' | 'dark'>) => {
-      state.theme = action.payload;
+    setLanguage: (state, action: PayloadAction<'en' | 'ar'>) => {
+      state.language = action.payload;
     },
   },
 });
 
-export const { setTheme } = settingsSlice.actions;
+export const { setLanguage } = settingsSlice.actions;
 export default settingsSlice.reducer;

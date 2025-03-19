@@ -35,7 +35,7 @@ const MovieListScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{t('popularMovies')}</Text>
+      <Text style={styles.title}>{t('moviesList')}</Text>
       <FlatList
         data={data.results}
         keyExtractor={(item) => item.id.toString()}

@@ -17,7 +17,6 @@ import { NAVIGATION, COLORS } from '../constants';
 
 
 export type RootStackParamList = {
-  Login: undefined;
   MovieList: undefined;
 };
 
@@ -43,11 +42,6 @@ const NavigationService: React.FC = () => {
     return (
       <NavigationContainer>
         <Stack.Navigator>
-          {/* <Stack.Screen
-            name={NAVIGATION.LOGIN}
-            component={LoginScreen}
-            options={{ title: t('login') }}
-          /> */}
           <Stack.Screen
             name={NAVIGATION.MovieList}
             component={MovieListScreen}

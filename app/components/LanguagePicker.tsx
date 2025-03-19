@@ -7,8 +7,8 @@ import { Picker } from '@react-native-picker/picker';
 import { styles } from '../styles/LoginStyle';
 import { RootState } from '../store';
 import { setLanguage } from '../reducers/settingsSlice';
-import i18n from '../assets/i18n';
 import { LOCALIZATION_LANGUAGES } from '../constants';
+import { handleLanguageChange } from '../helpers/LocalizationHelper';
 
 const LanguagePicker: React.FC = () => {
     const { t } = useTranslation();
@@ -17,7 +17,7 @@ const LanguagePicker: React.FC = () => {
 
     const onLanguageChange = (lan: 'ar' | 'en') => {
         dispatch(setLanguage(lan));
-        i18n.changeLanguage(lan);
+        handleLanguageChange(lan);
     };
 
     return (

@@ -1,22 +1,18 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, memo, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Picker } from '@react-native-picker/picker';
-import { TextInput, Button, View, Text, Alert } from 'react-native';
+import { TextInput, Button, View, Text } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { RootState } from '../store';
 import { styles } from '../styles/LoginStyle';
 import { setCredentials } from '../reducers/userSlice';
 import { login } from '../reducers/authSlice';
-import { setLanguage } from '../reducers/settingsSlice';
-import i18n from '../assets/i18n';
-
-import { REGEX, LOCALIZATION_LANGUAGES, COLORS, STRINGS } from '../constants';
+import LanguagePicker from '../components/LanguagePicker';
+import { REGEX, COLORS, STRINGS } from '../constants';
 
 const LoginScreen: React.FC = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
-  const { language } = useSelector((state: RootState) => state.rootReducer.settings);
   const user = useSelector((state: RootState) => state.rootReducer.user);
 
   const [email, setEmail] = useState<string>(user.email ?? STRINGS.EMPTY);
@@ -32,11 +28,6 @@ const LoginScreen: React.FC = () => {
     setEmail(email);
   };
 
-  const onLanguageChange = (lan: 'ar' | 'en') => {
-    dispatch(setLanguage(lan));
-    i18n.changeLanguage(lan);
-  };
-
   const handleLogin = () => {
     if (isFormValid) {
       dispatch(setCredentials({ email, password }));
@@ -45,19 +36,11 @@ const LoginScreen: React.FC = () => {
     }
   };
 
+  const MemoizedPicker = memo(() => <LanguagePicker />);
+
   return (
     <View style={styles.container}>
-      <View style={styles.pickerContainer}>
-        <Picker
-          selectedValue={language}
-          onValueChange={onLanguageChange}
-          style={styles.picker}
-        >
-          {Object.entries(LOCALIZATION_LANGUAGES).map(entry => (
-            <Picker.Item key={entry[0]} label={t(entry[1])} value={entry[0]} />
-          ))}
-        </Picker>
-      </View>
+      <MemoizedPicker />
       <Text style={styles.formHeaderText}>{t('login')}</Text>
       <View style={styles.loginForm}>
         <Text style={styles.textLabel}>{t('email')}</Text>

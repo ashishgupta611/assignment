@@ -2,9 +2,11 @@
 export const API = {
   URL: {
     MOVIESDB: 'https://api.themoviedb.org',
+    IMAGE_DB: 'https://image.tmdb.org'
   },
   PATH: {
-    POPULAR_MOVIE: '/3/discover/movie',
+    POPULAR_MOVIE: '/3/movie/popular',
+    POSTER_PATH: '/t/p/w500'
   },
 } as const;
 
@@ -22,7 +24,7 @@ export const REGEX = {
 
 // Numbers
 export const NUMBERS = {
-  MAX_RETRIES: 3,
+  COLUMNS: 2,
   TIMEOUT: 5000, // 5 seconds
 } as const;
 

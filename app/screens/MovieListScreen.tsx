@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { View, Text, FlatList, Image } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import { API_URLS } from '../constants';
+import { API, NUMBERS } from '../constants';
 import { styles } from '../styles/MovieListStyle';
 import useAPI from '../hooks/useAPI';
 
@@ -17,31 +17,33 @@ interface MoviesResponse {
 
 const MovieListScreen: React.FC = () => {
   const { t } = useTranslation();
-  const [movies, setMovies] = useState<Movie[]>([]);
-  const apiKey = process.env.REACT_APP_TMDB_API_KEY;
+  const url = `${API.URL.MOVIESDB}${API.PATH.POPULAR_MOVIE}`;
 
-  useEffect(() => {
-    const fetchMovies = async () => {
-      const response = await fetch(
-        `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}`
-      );
-      const data = await response.json();
-      setMovies(data.results);
-    };
-    fetchMovies();
-  }, [apiKey]);
+  const { data, loading, error } = useAPI<MoviesResponse>({
+    url,
+    initialData: { results: [] },
+    token: ''
+  });
+  
+  if (loading) {
+    return <Text>{t('loading')}</Text>;
+  }
+
+  if (error) {
+    return <Text>{t('error')}: {error}</Text>;
+  }
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{t('popularMovies')}</Text>
       <FlatList
-        data={movies}
+        data={data.results}
         keyExtractor={(item) => item.id.toString()}
-        numColumns={2}
+        numColumns={NUMBERS.COLUMNS}
         renderItem={({ item }) => (
           <View style={styles.movieItem}>
             <Image
-              source={{ uri: `https://image.tmdb.org/t/p/w500${item.poster_path}` }}
+              source={{ uri: `${API.URL.IMAGE_DB}${API.PATH.POSTER_PATH}/${item.poster_path}` }}
               style={styles.poster}
             />
             <Text style={styles.movieTitle}>{item.title}</Text>

@@ -1,4 +1,4 @@
-import React, { useState, memo, useMemo } from 'react';
+import React, { useState, memo, useMemo, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { TextInput, Button, View, Text } from 'react-native';
 import { useTranslation } from 'react-i18next';
@@ -18,18 +18,18 @@ const LoginScreen: React.FC = () => {
   const [email, setEmail] = useState<string>(user.email ?? STRINGS.EMPTY);
   const [password, setPassword] = useState<string>(user.password ?? STRINGS.EMPTY);
 
-  const validateEmail = (email: string) => REGEX.EMAIL.test(email);
+  const validateEmail = useCallback((email: string) => REGEX.EMAIL.test(email), [email]);
   const isEmailValid = useMemo(() => email === STRINGS.EMPTY ? true : validateEmail(email), [email]);
 
-  const validatePassword = (password: string) => REGEX.PASSWORD.test(password);
-  const isFormValid = useMemo(() => isEmailValid && validatePassword(password), [email, password]);
+  const validatePassword = useCallback((password: string) => REGEX.PASSWORD.test(password), [password]);
+  const isValidPassword = useMemo(() => validatePassword(password), [password]);
 
   const handleEmailTextChange = (email: string) => {
     setEmail(email);
   };
 
   const handleLogin = () => {
-    if (isFormValid) {
+    if (isEmailValid && isValidPassword) {
       dispatch(setCredentials({ email, password }));
       // TODO:: Setting 'User1' have no use here. 
       dispatch(login('User1'));
@@ -66,7 +66,7 @@ const LoginScreen: React.FC = () => {
         <Button
           title={t('submit')}
           onPress={handleLogin}
-          disabled={!isFormValid}
+          disabled={!(isEmailValid && isValidPassword)}
         />
       </View>
     </View>

@@ -33,4 +33,5 @@ export const COLORS = {
   PRIMARY: '#3498db',
   SECONDARY: '#2ecc71',
   ERROR: '#e74c3c',
+  SCREEN_BACKGROUND: '#f5f5f5'
 } as const;

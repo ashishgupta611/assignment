@@ -18,23 +18,23 @@ const LoginScreen: React.FC = () => {
   const [email, setEmail] = useState<string>(user.email ?? STRINGS.EMPTY);
   const [password, setPassword] = useState<string>(user.password ?? STRINGS.EMPTY);
 
-  const validateEmail = useCallback((email: string) => REGEX.EMAIL.test(email), [email]);
-  const isEmailValid = useMemo(() => email === STRINGS.EMPTY ? true : validateEmail(email), [email]);
+  const isEmailValid = useMemo(() => {
+    return email === STRINGS.EMPTY ? true : REGEX.EMAIL.test(email);
+  }, [email]);
 
-  const validatePassword = useCallback((password: string) => REGEX.PASSWORD.test(password), [password]);
-  const isValidPassword = useMemo(() => validatePassword(password), [password]);
+  const isValidPassword = useMemo(() => REGEX.PASSWORD.test(password), [password]);
 
-  const handleEmailTextChange = (email: string) => {
+  const handleEmailTextChange = useCallback((email: string) => {
     setEmail(email);
-  };
+  }, [email]);
 
-  const handleLogin = () => {
+  const handleLogin = useCallback(() => {
     if (isEmailValid && isValidPassword) {
       dispatch(setCredentials({ email, password }));
       // TODO:: Setting 'User1' have no use here. 
       dispatch(login('User1'));
     }
-  };
+  }, [email, password]);
 
   const MemoizedPicker = memo(() => <LanguagePicker />);
 
